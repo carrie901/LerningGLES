@@ -4,6 +4,8 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -15,6 +17,9 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer {
     GLSurfaceView view;
 
     TestGraphics graphics;
+
+    public static float deltaTime = 0.0f; // 当前帧与上一帧的时间差
+    public static long lastFrame = 0; // 上一帧的时间
 
     public SimpleMVPRender(GLSurfaceView view){
         this.view = view;
@@ -37,6 +42,11 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+
+        // 计算每帧之间的时间差
+        long currentFrame = System.currentTimeMillis();
+        deltaTime = (currentFrame-lastFrame)/1000f;
+        lastFrame = currentFrame;
 
         // 清除深度缓冲与颜色缓冲
         GLES30.glClearColor(0.35f,0.5f,0.35f,1.0f);

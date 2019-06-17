@@ -2,6 +2,7 @@ package com.gamedev.sjm.glesmvpdemo.MatrixUtil;
 
 import android.opengl.Matrix;
 
+import com.gamedev.sjm.glesmvpdemo.MathUtil.Math;
 import com.gamedev.sjm.glesmvpdemo.Vector3;
 
 /**
@@ -71,26 +72,40 @@ public class MatrixUtil {
     }
 
     /**
+     * 欧拉模型的摄像机,给定相机位置和当前相机的旋转来决定投影矩阵
+     * @param pos
+     * @param rotation
+     * @return
+     */
+    public static float[] GetViewMatrix(
+            Vector3 pos,
+            Vector3 rotation
+    ){
+        float[] matrix = new float[16];
+        Matrix.setIdentityM(matrix,0);
+
+        // 按照 缩放 - 旋转 - 位移的顺序进行变换
+        float[] rMatrix = GetRotationMatrix(-rotation.x,-rotation.y,-rotation.z);
+        float[] tMatrix = GetTranslateMatrix(-pos.x,-pos.y,-pos.z);
+        Matrix.multiplyMM(matrix,0,tMatrix,0,rMatrix,0);
+        return matrix;
+    }
+
+    /**
      * 获得透视投影的投影矩阵
      * @param near 摄像机距离近平面的距离
      * @param far  摄像机距离远平面的距离
-     * @param top 近平面距离上边的高度
-     * @param bottom 近平面距离下边的高度
-     * @param right 近平面距离右边的长度
-     * @param left 近平面距离左边的长度
      * @return
      */
     public static float[] GetProjectFrustumMatrix(
             float near,float far,
-            float top,float bottom,
-            float right,float left
+            float fovAngle,float aspect
     ){
         float[] matrix = new float[4*4];
         Matrix.setIdentityM(matrix,0);
-        Matrix.frustumM(matrix,
+        Matrix.perspectiveM(matrix,
                 0,
-                left,right,
-                bottom,top,
+                fovAngle,aspect,
                 near,far);
 
         return matrix;

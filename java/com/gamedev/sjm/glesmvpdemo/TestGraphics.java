@@ -5,6 +5,10 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.support.v4.math.MathUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.gamedev.sjm.glesmvpdemo.BufferUtil.BufferUtil;
 import com.gamedev.sjm.glesmvpdemo.MatrixUtil.MatrixUtil;
@@ -12,6 +16,7 @@ import com.gamedev.sjm.glesmvpdemo.MeshObject.Cube;
 import com.gamedev.sjm.glesmvpdemo.MeshObject.Quad;
 import com.gamedev.sjm.glesmvpdemo.ShaderUtil.Shader;
 import com.gamedev.sjm.glesmvpdemo.ShaderUtil.ShaderUtil;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Mesh;
 import com.gamedev.sjm.glesmvpdemo.TextureUtil.TextureFilteringMode;
 import com.gamedev.sjm.glesmvpdemo.TextureUtil.TextureSamplingMode;
@@ -20,7 +25,7 @@ import com.gamedev.sjm.glesmvpdemo.TextureUtil.TextureUtil;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-public class TestGraphics {
+public class TestGraphics implements View.OnTouchListener {
     GLSurfaceView view;
     // 着色器ID
     int program;
@@ -29,10 +34,25 @@ public class TestGraphics {
 
     Mesh quad;
 
+    private float x1;
+    private float y1;
+
+    public Vector3 cameraPos;
+    private Camera camera;
+    public Vector3 cameraRotation = Vector3.Zero;
+    Vector3 up = new Vector3(0,1,0);
+    float near = 0.3f;
+    int far = 10;
+
+
     public TestGraphics(GLSurfaceView view){
         this.view = view;
+        cameraPos = new Vector3(0,0,-4);
+        this.view.setOnTouchListener(this);
         quad = new Cube();
         InitShader();
+
+        camera = new Camera(cameraPos,cameraRotation,up,45f,near,far,720f/1280f);
     }
 
     /**
@@ -77,6 +97,7 @@ public class TestGraphics {
     }
 
     int angle;
+    float cameraAngle;
     public void DrawTriangle(){
 
         // 指定本次渲染使用的着色器程序
@@ -91,39 +112,25 @@ public class TestGraphics {
         angle = (angle+1)%360;
         // 物体属性
         Vector3 pos = new Vector3(0,0,0);    // 物体位置
-        Vector3 rotation = new Vector3(angle,angle,angle);   // 物体旋转角度
+        Vector3 rotation = new Vector3(angle,45,45);   // 物体旋转角度
         Vector3 scale = new Vector3(1,1,1);  // 物体缩放程度
 
-        // 摄像机属性
-        Vector3 cameraPos = new Vector3(0,0,-2);
-        Vector3 up = new Vector3(0,1,0);
-        int right = 1;
-        int left = -1;
-        int top = 1;
-        int bottom = -1;
-        float near = 1;
-        int far = 10;
-
+        cameraAngle = (cameraAngle+0.1f)%30;
+        camera.transform.pos = cameraPos;
         // mvp变换
         float[] mMatrix = MatrixUtil.GetModelMatrix(
                 pos.x,pos.y,pos.z,
                 rotation.x,rotation.y,rotation.z,
                 scale.x,scale.y,scale.z
         );
-        float[] vMatrix = MatrixUtil.GetViewMatrix(
-                cameraPos,pos,up
-        );
-        float[] pMatrix = MatrixUtil.GetProjectFrustumMatrix(
-                near,far,top,bottom,right,left
-        );
+        float[] vMatrix = camera.GetViewMatrix();
+        float[] pMatrix = camera.GetProjectMatrix();
 
-        float[] mvp = new float[16];
-        Matrix.multiplyMM(mvp,0,vMatrix,0,mMatrix,0);
-        Matrix.multiplyMM(mvp,0,pMatrix,0,mvp,0);
-        shader.SetMatrix4x4("mvp",mvp);
+        shader.SetMatrix4x4("mMatrix",mMatrix);
+        shader.SetMatrix4x4("vMatrix",vMatrix);
+        shader.SetMatrix4x4("pMatrix",pMatrix);
 
         // 进行绘制
-//        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 6);
         GLES30.glDrawElements(
                 GLES30.GL_TRIANGLES,    // 绘制模式
                 36,              // 顶点个数
@@ -143,5 +150,33 @@ public class TestGraphics {
                 scale.x,scale.y,scale.z
         );
         DrawMesh(mesh,mMatrix,shader);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        float cameraSpeed = 2.5f * SimpleMVPRender.deltaTime;
+        System.out.println(cameraSpeed);
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                //当手指按下的时候
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                //当手指移动的时候
+                float x2 = event.getX();
+                float y2 = event.getY();
+                if(y1 - y2 > 50) {
+                    cameraPos.y += 1f * cameraSpeed;
+                } else if(y2 - y1 > 50) {
+                    cameraPos.y -= 1f * cameraSpeed;
+                } else if(x1 - x2 > 50) {
+                    cameraPos.x += 1f * cameraSpeed;
+                } else if(x2 - x1 > 50) {
+                    cameraPos.x -= 1f * cameraSpeed;
+                }
+                break;
+        }
+        return true;
     }
 }
