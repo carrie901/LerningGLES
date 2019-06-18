@@ -1,6 +1,6 @@
 package com.gamedev.sjm.glesmvpdemo.MeshObject;
 
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Mesh;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.Vector3;
 
 public class Cube extends Mesh {
@@ -80,6 +80,44 @@ public class Cube extends Mesh {
                 rightup_Down.x,rightup_Down.y,rightup_Down.z
         };
 
+        float[] colors = new float[]{
+                // 正面
+                1,0,0,1,
+                1,0,1,1,
+                0,0,1,1,
+                0,0,1,1,
+
+                // 右侧面
+                1,0,0,1,
+                1,0,1,1,
+                0,0,1,1,
+                0,0,1,1,
+
+                // 左侧面
+                1,0,0,1,
+                1,0,1,1,
+                0,0,1,1,
+                0,0,1,1,
+
+                // 背面
+                1,0,0,1,
+                1,0,1,1,
+                0,0,1,1,
+                0,0,1,1,
+
+                // 上面
+                1,0,0,1,
+                1,0,1,1,
+                0,0,1,1,
+                0,0,1,1,
+
+                // 下面
+                1,0,0,1,
+                1,0,1,1,
+                0,0,1,1,
+                0,0,1,1,
+        };
+
         float[] uvs = new float[]{
                 // 正面
                 0,0,
@@ -142,5 +180,6 @@ public class Cube extends Mesh {
         setVertics(vertics);
         setUv(uvs);
         setTriangles(triangles);
+        setColors(colors);
     }
 }

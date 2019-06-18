@@ -2,10 +2,16 @@ package com.gamedev.sjm.glesmvpdemo.SimpleEngine;
 
 import android.opengl.Matrix;
 
-import com.gamedev.sjm.glesmvpdemo.MatrixUtil.MatrixUtil;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MatrixUtil.MatrixUtil;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Component;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Transform;
 import com.gamedev.sjm.glesmvpdemo.Vector3;
 
-public class Camera {
+public class Camera extends Component {
+
+    // 主摄像机
+    public static Camera main;
+
     public Transform transform = Transform.Default;
     // 默认观察方向为摄像机前方
     private Vector3 forwardDir = new Vector3(0,0,1);
@@ -19,6 +25,13 @@ public class Camera {
     public float far;
     // 屏幕宽高比
     public float aspect;
+
+    /**
+     * 将当前摄像机设置为主摄像机
+     */
+    public void SetMain(){
+        main = this;
+    }
 
     /**
      *
@@ -45,9 +58,9 @@ public class Camera {
         float[] cameraRMatrix = MatrixUtil.GetRotationMatrix(transform.rotation.x,transform.rotation.y,transform.rotation.z);
         float[] forwardResultDir = new float[16];
         Matrix.multiplyMV(forwardResultDir,0,cameraRMatrix,0,tempForwardDir,0);
-        forwardDir.x = forwardResultDir[0];forwardDir.y = forwardResultDir[1];forwardDir.z = forwardResultDir[2];
+        Vector3 fDir = new Vector3(forwardResultDir[0],forwardResultDir[1],forwardResultDir[2]);
 
-        Vector3 targetPos = transform.pos.Add(forwardDir);
+        Vector3 targetPos = transform.pos.Add(fDir);
         return MatrixUtil.GetViewMatrix(
                 transform.pos,targetPos,upDir
         );

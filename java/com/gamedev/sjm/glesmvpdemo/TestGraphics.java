@@ -3,27 +3,18 @@ package com.gamedev.sjm.glesmvpdemo;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
-import android.support.v4.math.MathUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.gamedev.sjm.glesmvpdemo.BufferUtil.BufferUtil;
-import com.gamedev.sjm.glesmvpdemo.MatrixUtil.MatrixUtil;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MatrixUtil.MatrixUtil;
 import com.gamedev.sjm.glesmvpdemo.MeshObject.Cube;
-import com.gamedev.sjm.glesmvpdemo.MeshObject.Quad;
-import com.gamedev.sjm.glesmvpdemo.ShaderUtil.Shader;
-import com.gamedev.sjm.glesmvpdemo.ShaderUtil.ShaderUtil;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.Shader;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.ShaderUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Mesh;
-import com.gamedev.sjm.glesmvpdemo.TextureUtil.TextureFilteringMode;
-import com.gamedev.sjm.glesmvpdemo.TextureUtil.TextureSamplingMode;
-import com.gamedev.sjm.glesmvpdemo.TextureUtil.TextureUtil;
-
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureFilteringMode;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureSamplingMode;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureUtil;
 
 public class TestGraphics implements View.OnTouchListener {
     GLSurfaceView view;
@@ -44,6 +35,11 @@ public class TestGraphics implements View.OnTouchListener {
     float near = 0.3f;
     int far = 10;
 
+    //=============光照相关================
+    public Vector3 lightColor = Vector3.One;
+    public Vector3 lightPos = new Vector3(1.2f,1.0f,2.0f);
+    public Vector3 lightRotation = Vector3.Zero;
+    public Vector3 lightScale = new Vector3(0.2f,0.2f,0.2f);
 
     public TestGraphics(GLSurfaceView view){
         this.view = view;
@@ -65,13 +61,13 @@ public class TestGraphics implements View.OnTouchListener {
         program = ShaderUtil.CreateProgram(vertexShader,fragmentShader);
         shader = new Shader(program);
 
-        InitTexture();
+        InitTexture(shader);
 
         // 绑定并设置各顶点属性
         shader.BindVertexAttribute(quad);
     }
 
-    public void InitTexture(){
+    public void InitTexture(Shader shader){
 
         // ==========设置纹理1=============
         Bitmap bitmap = TextureUtil.LoadBitmap(R.raw.wall,view.getResources());
@@ -115,8 +111,10 @@ public class TestGraphics implements View.OnTouchListener {
         Vector3 rotation = new Vector3(angle,45,45);   // 物体旋转角度
         Vector3 scale = new Vector3(1,1,1);  // 物体缩放程度
 
-        cameraAngle = (cameraAngle+0.1f)%30;
+//        cameraAngle = (cameraAngle+0.1f)%30;
+//        System.out.println("cameraAngle:"+cameraAngle);
         camera.transform.pos = cameraPos;
+//        camera.transform.rotation.y = cameraAngle;
         // mvp变换
         float[] mMatrix = MatrixUtil.GetModelMatrix(
                 pos.x,pos.y,pos.z,
@@ -168,11 +166,14 @@ public class TestGraphics implements View.OnTouchListener {
                 float y2 = event.getY();
                 if(y1 - y2 > 50) {
                     cameraPos.y += 1f * cameraSpeed;
-                } else if(y2 - y1 > 50) {
+                }
+                if(y2 - y1 > 50) {
                     cameraPos.y -= 1f * cameraSpeed;
-                } else if(x1 - x2 > 50) {
+                }
+                if(x1 - x2 > 50) {
                     cameraPos.x += 1f * cameraSpeed;
-                } else if(x2 - x1 > 50) {
+                }
+                if(x2 - x1 > 50) {
                     cameraPos.x -= 1f * cameraSpeed;
                 }
                 break;
