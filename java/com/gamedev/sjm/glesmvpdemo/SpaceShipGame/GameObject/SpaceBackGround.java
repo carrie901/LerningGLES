@@ -11,9 +11,8 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
-import com.gamedev.sjm.glesmvpdemo.Vector3;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.R;
-import java.io.IOException;
 
 public class SpaceBackGround extends GameObject {
 
@@ -23,7 +22,7 @@ public class SpaceBackGround extends GameObject {
     public SpaceBackGround() {
         try {
 //            background = TextureUtil.LoadBitmap("textures/tile_nebula_green_dff.png", SurfaceView.DrawingView.getContext());
-            background = TextureUtil.LoadBitmap(R.drawable.wall,SurfaceView.DrawingView.getResources());
+            background = TextureUtil.LoadBitmap(R.drawable.stareey,SurfaceView.DrawingView.getResources());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -39,17 +38,22 @@ public class SpaceBackGround extends GameObject {
         AddComponent(meshRender);
 
         // 设置坐标与缩放程度
-        transform.pos = Vector3.Zero;
-        transform.scale = new Vector3(15,30,1);
-        transform.rotation = new Vector3(90,0,0);
+        transform.pos = new Vector3(-2f,-3.5f,3);
+        transform.scale = new Vector3(4f,7f,1);
+        transform.rotation = new Vector3(0,0,0);
 
         if(background!=null && !background.isRecycled())
             shader.SetTexture2D(
                     "texture1",
                     background,
                     0,
-                    TextureSamplingMode.Repeat,
+                    TextureSamplingMode.Clamp,
                     TextureFilteringMode.Bilinear
             );
+    }
+
+    @Override
+    public void Render() {
+        super.Render();
     }
 }

@@ -1,7 +1,7 @@
 package com.gamedev.sjm.glesmvpdemo.SimpleEngine.components;
 
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MatrixUtil.MatrixUtil;
-import com.gamedev.sjm.glesmvpdemo.Vector3;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;

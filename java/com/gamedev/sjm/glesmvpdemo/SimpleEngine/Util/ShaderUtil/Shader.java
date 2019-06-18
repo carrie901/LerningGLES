@@ -175,15 +175,17 @@ public class Shader {
      * @param mesh
      */
     public void BindVertexAttribute(Mesh mesh){
-        // 根据顶点索引数组申请OpenGL索引对象ID
-        // 申请OpenGL顶点索引对象
-        int[] id = new int[1];
-        GLES30.glGenBuffers(
-                1,  // 申请数量
-                id,    // 保存申请到的对象的id
-                0 // 保存在数组中的偏移
-        );
-        trianglesHandle = id[0];
+        if(trianglesHandle==-1) {
+            // 根据顶点索引数组申请OpenGL索引对象ID
+            // 申请OpenGL顶点索引对象
+            int[] id = new int[1];
+            GLES30.glGenBuffers(
+                    1,  // 申请数量
+                    id,    // 保存申请到的对象的id
+                    0 // 保存在数组中的偏移
+            );
+            trianglesHandle = id[0];
+        }
         // 绑定顶点索引对象
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER,trianglesHandle);
         // 将顶点索引数组的值输入到申请的顶点索引对象中去

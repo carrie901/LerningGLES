@@ -2,7 +2,7 @@ package com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MatrixUtil;
 
 import android.opengl.Matrix;
 
-import com.gamedev.sjm.glesmvpdemo.Vector3;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 
 /**
  * 这里要注意,OpenGL的规范:
@@ -123,23 +123,24 @@ public class MatrixUtil {
     public static float[] GetRotationMatrix(
             float angleX, float angleY,float angleZ
     ){
-        float[] xMatrix = new float[4*4];
-        float[] yMatrix = new float[4*4];
-        float[] zMatrix = new float[4*4];
-
-        // 绕x轴旋转angleX度
-        Matrix.setRotateM(xMatrix,0,angleX,rightDir.x,rightDir.y,rightDir.z);
-        // 绕z轴旋转angleZ度
-        Matrix.setRotateM(zMatrix,0,angleZ,forwardDir.x,forwardDir.y,forwardDir.z);
-        // 绕y轴旋转angleY度
-        Matrix.setRotateM(yMatrix,0,angleY,upDir.x,upDir.y,upDir.z);
-
-        // 旋转矩阵,旋转顺序是zxy(旋转后轴不变的情况),这里以轴变换的形式,
-        // 则旋转顺序为yxz,注意GLES里向量为列矩阵,即矩阵运算是左乘的
+//        float[] xMatrix = new float[4*4];
+//        float[] yMatrix = new float[4*4];
+//        float[] zMatrix = new float[4*4];
+//
+//        // 绕x轴旋转angleX度
+//        Matrix.setRotateM(xMatrix,0,angleX,rightDir.x,rightDir.y,rightDir.z);
+//        // 绕z轴旋转angleZ度
+//        Matrix.setRotateM(zMatrix,0,angleZ,forwardDir.x,forwardDir.y,forwardDir.z);
+//        // 绕y轴旋转angleY度
+//        Matrix.setRotateM(yMatrix,0,angleY,upDir.x,upDir.y,upDir.z);
+//
+//        // 旋转矩阵,旋转顺序是zxy(旋转后轴不变的情况),这里以轴变换的形式,
+//        // 则旋转顺序为yxz,注意GLES里向量为列矩阵,即矩阵运算是左乘的
         float[] rotationMatrix = new float[4*4];
-        Matrix.setIdentityM(rotationMatrix,0);
-        Matrix.multiplyMM(rotationMatrix,0,xMatrix,0,yMatrix,0);
-        Matrix.multiplyMM(rotationMatrix,0,zMatrix,0,rotationMatrix,0);
+        Matrix.setRotateEulerM(rotationMatrix,0,angleX,angleY,angleZ);
+//        Matrix.setIdentityM(rotationMatrix,0);
+//        Matrix.multiplyMM(rotationMatrix,0,xMatrix,0,yMatrix,0);
+//        Matrix.multiplyMM(rotationMatrix,0,zMatrix,0,rotationMatrix,0);
 
         return rotationMatrix;
     }

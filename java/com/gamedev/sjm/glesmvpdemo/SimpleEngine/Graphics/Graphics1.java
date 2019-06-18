@@ -8,7 +8,7 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.Shader;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
-import com.gamedev.sjm.glesmvpdemo.Vector3;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 
 public class Graphics1 {
 

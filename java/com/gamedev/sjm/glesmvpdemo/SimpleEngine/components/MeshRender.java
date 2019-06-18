@@ -9,15 +9,18 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
 public class MeshRender extends Component{
 
     private boolean isInit;
+    private int renderMode = GLES30.GL_TRIANGLES;
 
     Shader shader;
     Mesh mesh;
     public MeshRender(Shader shader,Mesh mesh){
         this.shader = shader;
         this.mesh = mesh;
-
-        // 初始化渲染数据
-        PrepareRenderMesh();
+    }
+    public MeshRender(Shader shader,Mesh mesh,int renderMode){
+        this.shader = shader;
+        this.mesh = mesh;
+        this.renderMode = renderMode;
     }
     public void PrepareRenderMesh(){
         shader.BindVertexAttribute(mesh);
@@ -25,6 +28,7 @@ public class MeshRender extends Component{
     }
 
     public void Render(GameObject gameObject){
+        // 初始化渲染数据
         PrepareRenderMesh();
 
         // 指定本次渲染使用的着色器程序
@@ -48,7 +52,7 @@ public class MeshRender extends Component{
 
         // 进行绘制
         GLES30.glDrawElements(
-                GLES30.GL_TRIANGLES,                     // 绘制模式
+                renderMode,                     // 绘制模式
                 mesh.getTriangles().length,              // 顶点个数
                 GLES30.GL_UNSIGNED_INT,                  // 索引类型
                 0

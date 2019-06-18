@@ -5,7 +5,7 @@ import android.opengl.Matrix;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MatrixUtil.MatrixUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Component;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Transform;
-import com.gamedev.sjm.glesmvpdemo.Vector3;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 
 public class Camera extends Component {
 

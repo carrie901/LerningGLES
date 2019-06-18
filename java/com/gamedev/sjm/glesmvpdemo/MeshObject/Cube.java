@@ -1,7 +1,7 @@
 package com.gamedev.sjm.glesmvpdemo.MeshObject;
 
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
-import com.gamedev.sjm.glesmvpdemo.Vector3;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 
 public class Cube extends Mesh {
     final float UNIT_SIZE = 0.2f;

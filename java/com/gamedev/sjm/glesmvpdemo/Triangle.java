@@ -2,6 +2,8 @@ package com.gamedev.sjm.glesmvpdemo;
 
 import android.opengl.GLES30;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
+
 public class Triangle {
     // 三角形的三个顶点
     private Vector3 v1,v2,v3;

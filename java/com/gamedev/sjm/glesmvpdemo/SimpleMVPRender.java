@@ -6,20 +6,19 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Graphics.Graphics1;
-import com.gamedev.sjm.glesmvpdemo.MeshObject.Cube;
-import com.gamedev.sjm.glesmvpdemo.MeshObject.Quad;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.Shader;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Behaviors.RotationBehavior;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.SimpleGameEnginer;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Time.Time;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.Asteroid1;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceBackGround;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceShip;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import javax.xml.parsers.SAXParser;
 
 /**
  * 基于简单的渲染管线的渲染线程
@@ -38,7 +37,7 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
     public Vector3 cameraRotation = Vector3.Zero;
     Vector3 up = new Vector3(0,1,0);
     float near = 0.3f;
-    int far = 10;
+    int far = 15;
 
     public static float deltaTime = 0.0f; // 当前帧与上一帧的时间差
     public static long lastFrame = 0; // 上一帧的时间
@@ -57,6 +56,11 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
         SpaceBackGround backGround = new SpaceBackGround();
         gameEnginer.gameObjects.add(backGround);
 
+        SpaceShip spaceShip = new SpaceShip();
+        gameEnginer.gameObjects.add(spaceShip);
+
+        Asteroid1 asteroid1 = new Asteroid1();
+        gameEnginer.gameObjects.add(asteroid1);
         //=============对象2==================================
 //        GameObject gameObject2 = new GameObject();
 //        gameObject2.transform.pos = new Vector3(1,0,0);
@@ -110,8 +114,8 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
         // 打开深度测试
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
 
-        cameraPos = new Vector3(0,5,-4);
-        cameraRotation = new Vector3(70f,0,0);
+        cameraPos = new Vector3(0,0,-5);
+        cameraRotation = new Vector3(0,0,0);
         // 初始化摄像机
         camera = new Camera(cameraPos,cameraRotation,up,45f,near,far,720f/1280f);;
         camera.SetMain();
