@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gamedev.sjm.glesmvpdemo.MeshObject.Sphere;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Graphics.Graphics1;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
@@ -46,7 +47,7 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
 
     public SimpleMVPRender(GLSurfaceView view){
         this.view = view;
-        this.view.setOnTouchListener(this);
+//        this.view.setOnTouchListener(this);
         gameEnginer = new SimpleGameEnginer();
     }
     MeshRender meshRender;
@@ -61,6 +62,10 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
 
         Asteroid1 asteroid1 = new Asteroid1();
         gameEnginer.gameObjects.add(asteroid1);
+
+        Sphere sphere = new Sphere();
+        gameEnginer.gameObjects.add(sphere);
+
         //=============对象2==================================
 //        GameObject gameObject2 = new GameObject();
 //        gameObject2.transform.pos = new Vector3(1,0,0);

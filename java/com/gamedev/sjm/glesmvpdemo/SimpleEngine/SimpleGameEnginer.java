@@ -15,6 +15,13 @@ public class SimpleGameEnginer implements Game {
 
     public static SimpleGameEnginer main;
 
+    // 当前屏幕分辨率
+    public static int screenWidth = 720,screenHeight = 1280;
+
+    public SimpleGameEnginer(){
+        main = this;
+    }
+
     // 简单管理场景内所有游戏对象
     public List<GameObject> gameObjects = new ArrayList<>();
 

@@ -1,8 +1,14 @@
 package com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Renderable;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.SimpleGameEnginer;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Component;
 
-public class Collider extends Component {
+import java.util.List;
+
+public class Collider extends Component implements Renderable {
+
     /**
      * 虚方法，跟另外一个碰撞体发生碰撞时要处理的游戏逻辑
      * @param collider
@@ -23,6 +29,24 @@ public class Collider extends Component {
     @Override
     public void OnUpdate() {
         super.OnUpdate();
+        for(GameObject object : SimpleGameEnginer.main.gameObjects){
+            if(object==gameObject) continue;
+            Collider collider = object.GetComponent("Collider");
+            if(collider!=null){
+                // 进行碰撞检测
+                if(this.IsCollide(collider)){
+                    // 发生碰撞事件
+                    OnCollisionEnter(collider);
+                }
+            }
+        }
+    }
+
+    /**
+     * 用于绘制该碰撞盒的检测范围
+     */
+    @Override
+    public void Render() {
 
     }
 }

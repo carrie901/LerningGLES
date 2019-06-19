@@ -3,6 +3,7 @@ package com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Behaviors.OperationBehavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Renderable;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
@@ -38,7 +39,7 @@ public class SpaceShip extends GameObject {
         AddComponent(meshRender);
 
         transform.pos = new Vector3(0,0,-2);
-        transform.scale = new Vector3(0.15f,2f,0.15f);
+        transform.scale = new Vector3(0.15f,0.15f,0.15f);
         transform.rotation = new Vector3(90,0,0);
 
 
@@ -54,6 +55,9 @@ public class SpaceShip extends GameObject {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        OperationBehavior operationBehavior = new OperationBehavior();
+        AddComponent(operationBehavior);
     }
 
     @Override
