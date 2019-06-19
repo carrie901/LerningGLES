@@ -1,4 +1,4 @@
-package com.gamedev.sjm.glesmvpdemo.SimpleEngine.Behaviors;
+package com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors;
 
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Behavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Input.MultiTouchHandler;
@@ -30,18 +30,18 @@ public class OperationBehavior extends Behavior {
             Vector2 moveScale = MultiTouchHandler.GetMain().getMoveScale(0);
 //            System.out.println("移动刻度为：("+moveScale.u+","+moveScale.v+")");
             gameObject.transform.pos = gameObject.transform.pos.Add(new Vector3(moveSpeed*moveScale.u*Time.deltaTime,moveSpeed*Time.deltaTime*moveScale.v,0));
-            if(moveScale.u<0)
-            gameObject.transform.rotation = Vector3.Lerp(
-                    gameObject.transform.rotation,
-                    left,
-                    -moveScale.u * Time.deltaTime * moveSpeed
-            );
-            else
-                gameObject.transform.rotation = Vector3.Lerp(
-                        gameObject.transform.rotation,
-                        right,
-                        moveScale.u * Time.deltaTime * moveSpeed
-                );
+//            if(moveScale.u<0)
+//            gameObject.transform.rotation = Vector3.Lerp(
+//                    gameObject.transform.rotation,
+//                    left,
+//                    -moveScale.u * Time.deltaTime * moveSpeed
+//            );
+//            else
+//                gameObject.transform.rotation = Vector3.Lerp(
+//                        gameObject.transform.rotation,
+//                        right,
+//                        moveScale.u * Time.deltaTime * moveSpeed
+//                );
         }
     }
 }

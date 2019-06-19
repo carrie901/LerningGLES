@@ -110,7 +110,7 @@ public class OBJLoader {
         float[] vertics = new float[tVertex.size()*3];
         float[] uv = new float[tuvs.size()*2];
         int[] triangles = new int[ttriangles.size()];
-        float[] normals = new float[tNormals.size()*3];
+        float[] normals = new float[tVertex.size()*3];
 
         // 复制顶点索引
         for(int i=0;i<ttriangles.size();i++) triangles[i] = ttriangles.get(i);

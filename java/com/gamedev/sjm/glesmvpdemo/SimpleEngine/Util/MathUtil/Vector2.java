@@ -10,4 +10,9 @@ public class Vector2 {
         this.u = u;
         this.v = v;
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%.2f,%.2f)",u,v);
+    }
 }

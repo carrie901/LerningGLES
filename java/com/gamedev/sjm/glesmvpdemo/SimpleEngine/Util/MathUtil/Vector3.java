@@ -44,4 +44,9 @@ public class Vector3 {
         float z = a.z+(b.z-a.z)*t;
         return new Vector3(x,y,z);
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%.2f,%.2f,%.2f)",x,y,z);
+    }
 }

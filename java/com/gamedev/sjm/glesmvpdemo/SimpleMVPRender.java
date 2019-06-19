@@ -5,7 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.gamedev.sjm.glesmvpdemo.MeshObject.Sphere;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.OperationBehavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Graphics.Graphics1;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
@@ -19,7 +19,6 @@ import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceShip;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import javax.xml.parsers.SAXParser;
 
 /**
  * 基于简单的渲染管线的渲染线程
@@ -58,13 +57,24 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
         gameEnginer.gameObjects.add(backGround);
 
         SpaceShip spaceShip = new SpaceShip();
+        spaceShip.AddComponent(new OperationBehavior());
         gameEnginer.gameObjects.add(spaceShip);
 
         Asteroid1 asteroid1 = new Asteroid1();
+        asteroid1.transform.pos = new Vector3(0,1,-2);
         gameEnginer.gameObjects.add(asteroid1);
 
-        Sphere sphere = new Sphere();
-        gameEnginer.gameObjects.add(sphere);
+//        ColliderTest colliderTest = new ColliderTest();
+//        OperationBehavior behavior = new OperationBehavior();
+//        colliderTest.AddComponent(behavior);
+//        colliderTest.transform.scale = new Vector3(0.2f,0.1f,0.2f);
+//        gameEnginer.gameObjects.add(colliderTest);
+
+//        ColliderTest colliderTest1 = new ColliderTest();
+//        colliderTest1.transform.pos = new Vector3(0,1,-2);
+//        gameEnginer.gameObjects.add(colliderTest1);
+//        Sphere sphere = new Sphere();
+//        gameEnginer.gameObjects.add(sphere);
 
         //=============对象2==================================
 //        GameObject gameObject2 = new GameObject();
@@ -78,7 +88,7 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
 //                SurfaceView.DrawingView.getResources());
 //        MeshRender meshRender2 = new MeshRender(shader2,cube);
 //        gameObject2.AddComponent("MeshRender",meshRender2);
-//        RotationBehavior rotationBehavior = new RotationBehavior();
+//        AsteroidBehavior rotationBehavior = new AsteroidBehavior();
 //        gameObject2.AddComponent(rotationBehavior);
 //        gameEnginer.gameObjects.add(gameObject2);
 //
@@ -124,9 +134,10 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
         // 初始化摄像机
         camera = new Camera(cameraPos,cameraRotation,up,45f,near,far,720f/1280f);;
         camera.SetMain();
-        gameEnginer.OnStart();
         // 测试,给场景添加游戏对象
         test();
+
+        gameEnginer.OnStart();
     }
 
     @Override

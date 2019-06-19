@@ -3,9 +3,9 @@ package com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Behaviors.OperationBehavior;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.BoxCollider;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.Collider;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Renderable;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MeshUtil.OBJLoader;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.Shader;
@@ -14,6 +14,7 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureSampling
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameTags.GameTags;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
 
 public class SpaceShip extends GameObject {
@@ -24,6 +25,7 @@ public class SpaceShip extends GameObject {
     int angle = 0;
 
     public SpaceShip(){
+        tag = GameTags.PLAYER;
         try {
             spaceShipMesh = OBJLoader.ParseOBJ("obj/spaceship.obj", SurfaceView.DrawingView.getResources());
         }catch (Exception e){
@@ -56,8 +58,25 @@ public class SpaceShip extends GameObject {
             e.printStackTrace();
         }
 
-        OperationBehavior operationBehavior = new OperationBehavior();
-        AddComponent(operationBehavior);
+        Collider collider = new BoxCollider();
+        ((BoxCollider) collider).height = 0.15f;
+        ((BoxCollider) collider).length = 0.1f;
+        ((BoxCollider) collider).width = 0.1f;
+        AddComponent("Collider",collider);
+
+
+
+//        OperationBehavior operationBehavior = new OperationBehavior();
+//        AddComponent(operationBehavior);
+    }
+
+    @Override
+    public void OnCollisionEnter(Collider collider) {
+        super.OnCollisionEnter(collider);
+        GameObject colliderObject = collider.getGameObject();
+        if(colliderObject.tag==GameTags.ENEMRY){
+            GameObject.Destory(this);
+        }
     }
 
     @Override

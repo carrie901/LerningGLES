@@ -3,6 +3,7 @@ package com.gamedev.sjm.glesmvpdemo.SimpleEngine;
 import android.graphics.Color;
 import android.opengl.GLES30;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.EnginerEnum.EnginerState;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Game;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Renderable;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Time.Time;
@@ -14,6 +15,7 @@ import java.util.List;
 public class SimpleGameEnginer implements Game {
 
     public static SimpleGameEnginer main;
+    public static final EnginerState ENGINER_STATE = EnginerState.DEBUG;
 
     // 当前屏幕分辨率
     public static int screenWidth = 720,screenHeight = 1280;

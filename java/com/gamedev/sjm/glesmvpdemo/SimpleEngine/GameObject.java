@@ -1,5 +1,8 @@
 package com.gamedev.sjm.glesmvpdemo.SimpleEngine;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.Collider;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.EnginerEnum.EnginerState;
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Collidisionable;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.InterFace.Renderable;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Component;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
@@ -12,14 +15,15 @@ import java.util.Map;
 /**
  * 通用的游戏对象
  */
-public class GameObject implements Renderable {
+public class GameObject implements Renderable,Collidisionable {
 
     public Transform transform;
+    public boolean isDestoryed;
 
     // 全局唯一的标记
-    int tag;
+    public int tag;
 
-    private Map<String,Component> componentMap;
+    protected Map<String,Component> componentMap;
 
     public GameObject(Transform transform){
         componentMap = new HashMap<>();
@@ -59,14 +63,25 @@ public class GameObject implements Renderable {
         for(Component component : gameObject.GetAllComponent()){
             component.OnExit();
         }
-        SimpleGameEnginer.main.deleteGameObject(gameObject);
+        gameObject.isDestoryed = true;
+//        SimpleGameEnginer.main.deleteGameObject(gameObject);
     }
 
     @Override
     public void Render() {
+        if(isDestoryed) return;
         if(componentMap.containsKey("MeshRender")){
             MeshRender meshRender = GetComponent("MeshRender");
             meshRender.Render(this);
         }
+        if(SimpleGameEnginer.ENGINER_STATE==EnginerState.DEBUG && componentMap.containsKey("Collider")){
+            Collider collider = GetComponent("Collider");
+            collider.Render();
+        }
+    }
+
+    @Override
+    public void OnCollisionEnter(Collider collider) {
+
     }
 }

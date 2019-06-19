@@ -4,7 +4,7 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.Shader;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
 
 public class ShaderManager {
-    public Shader getDefaultShader() {
+    public static Shader getDefaultShader() {
         if(defaultShader==null){
             defaultShader = Shader.CreateShader(
                     "shaders/defaultShader/vertex.glsl",
@@ -14,6 +14,6 @@ public class ShaderManager {
         return defaultShader;
     }
 
-    private Shader defaultShader;
+    private static Shader defaultShader;
 
 }

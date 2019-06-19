@@ -12,6 +12,10 @@ public class Component implements Game {
         this.gameObject = gameObject;
     }
 
+    public GameObject getGameObject() {
+        return gameObject;
+    }
+
     // 该组件依附的游戏对象
     protected GameObject gameObject;
 
