@@ -1,4 +1,4 @@
 # space ship game
-![Avater]("assets/gif/spaceShip.gif")
+![Avater](assets/gif/spaceShip.gif)
 # breakout Game
-![Avater]("assets/gif/breakoutGame.gif")
+![Avater](assets/gif/breakoutGame.gif)
