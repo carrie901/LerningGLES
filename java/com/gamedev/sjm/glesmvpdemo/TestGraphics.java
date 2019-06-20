@@ -6,6 +6,7 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Time.Time;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MatrixUtil.MatrixUtil;
 import com.gamedev.sjm.glesmvpdemo.MeshObject.Cube;
@@ -153,7 +154,7 @@ public class TestGraphics implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        float cameraSpeed = 2.5f * SimpleMVPRender.deltaTime;
+        float cameraSpeed = 2.5f * Time.deltaTime;
         System.out.println(cameraSpeed);
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:

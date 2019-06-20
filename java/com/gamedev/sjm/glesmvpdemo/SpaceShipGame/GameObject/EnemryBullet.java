@@ -27,6 +27,7 @@ public class EnemryBullet extends GameObject {
     public boolean isUsed;
 
     public EnemryBullet(){
+        tag = GameTags.ENEMRY;
         mesh = new CenterQuad();
         shader = Shader.CreateShader(
                 "shaders/bulletShader/vertex.glsl",
@@ -64,8 +65,8 @@ public class EnemryBullet extends GameObject {
         super.OnCollisionEnter(collider);
         if(collider.getGameObject().tag==GameTags.PLAYER) {
             isUsed = false;
-            if(collider.getGameObject() instanceof SpaceShip)
-                ((SpaceShip)collider.getGameObject()).isDestoryed = true;
+//            if(collider.getGameObject() instanceof SpaceShip)
+//                ((SpaceShip)collider.getGameObject()).isDestoryed = true;
         }
     }
 

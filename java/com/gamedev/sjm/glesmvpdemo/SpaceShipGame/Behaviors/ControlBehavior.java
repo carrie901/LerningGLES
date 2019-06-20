@@ -48,6 +48,7 @@ public class ControlBehavior extends Behavior {
             for(Asteroid1 obj : asteroids){
                 if(!obj.isUsed){
                     obj.isUsed = true;
+                    obj.isDestoryed = false;
                     asteroid = obj;
                     break;
                 }

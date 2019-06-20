@@ -79,6 +79,7 @@ public class SimpleGameEnginer implements Game {
         for(int i=0;i<gameObjects.size();i++){
             GameObject gameObject = gameObjects.get(i);
             for(Component component : gameObject.GetAllComponent()){
+                if(component==null) continue;
                 component.OnUpdate();
             }
         }

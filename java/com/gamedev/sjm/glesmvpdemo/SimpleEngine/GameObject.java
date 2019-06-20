@@ -59,11 +59,20 @@ public class GameObject implements Renderable,Collidisionable {
         component.setGameObject(this);
     }
 
+    public void RemoveComponent(String key){
+        componentMap.put("key",null);
+    }
+
+    public void Exit(){
+        isDestoryed = true;
+    };
+
     public static void Destory(GameObject gameObject){
         for(Component component : gameObject.GetAllComponent()){
             component.OnExit();
         }
-        gameObject.isDestoryed = true;
+        gameObject.Exit();
+//        gameObject.isDestoryed = true;
 //        SimpleGameEnginer.main.deleteGameObject(gameObject);
     }
 

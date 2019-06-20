@@ -3,6 +3,7 @@ package com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Behavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.BoxCollider;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.Collider;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
@@ -14,6 +15,7 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureSampling
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.DeadBehavior;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameTags.GameTags;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
 
@@ -28,13 +30,16 @@ public class SpaceShip extends GameObject {
         tag = GameTags.PLAYER;
         try {
             spaceShipMesh = OBJLoader.ParseOBJ("obj/spaceship.obj", SurfaceView.DrawingView.getResources());
+            spaceShipMesh.enableNormal = true;
         }catch (Exception e){
             e.printStackTrace();
         }
         shader = Shader.CreateShader(
-                "shaders/spaceShip/vertex.glsl",
-                "shaders/spaceShip/frag.glsl",
+                "shaders/resloveShader/vertex.glsl",
+                "shaders/resloveShader/frag.glsl",
                 SurfaceView.DrawingView.getResources());
+
+
 
         MeshRender meshRender = new MeshRender(shader,spaceShipMesh,GLES30.GL_TRIANGLE_FAN);
         // 添加meshRender组件
@@ -54,6 +59,24 @@ public class SpaceShip extends GameObject {
                     TextureSamplingMode.Clamp,
                     TextureFilteringMode.Bilinear);
             shader.SetFloat4("mainColor",1,1,1,1);
+
+            Bitmap bitmap1 = TextureUtil.LoadBitmap("textures/burn_noise.png", SurfaceView.DrawingView.getContext());
+            shader.SetTexture2D(
+                    "burnMap",
+                    bitmap1,
+                    1,
+                    TextureSamplingMode.Clamp,
+                    TextureFilteringMode.Bilinear
+            );
+
+            shader.SetFloat4("burnFirstColor",1.0f,0.0f,0.0f,1.0f);
+            shader.SetFloat4("burnSecondColor",0.7f,0.2f,0.2f,1.0f);
+            shader.SetFloat("lineWidth",0.05f);
+            shader.SetFloat("burnAmount",0f);
+            shader.SetFloat("flyFactor",5.0f);
+            shader.SetFloat("flyAmount",0.5f);
+
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -64,10 +87,6 @@ public class SpaceShip extends GameObject {
         ((BoxCollider) collider).width = 0.1f;
         AddComponent("Collider",collider);
 
-
-
-//        OperationBehavior operationBehavior = new OperationBehavior();
-//        AddComponent(operationBehavior);
     }
 
     @Override
@@ -75,12 +94,14 @@ public class SpaceShip extends GameObject {
         super.OnCollisionEnter(collider);
         GameObject colliderObject = collider.getGameObject();
         if(colliderObject.tag==GameTags.ENEMRY){
-            GameObject.Destory(this);
+//            GameObject.Destory(this);
+            AddComponent(new DeadBehavior(shader));
         }
     }
 
     @Override
     public void Render() {
+
         super.Render();
     }
 }

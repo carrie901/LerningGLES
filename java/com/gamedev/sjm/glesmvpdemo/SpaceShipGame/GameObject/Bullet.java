@@ -26,6 +26,7 @@ public class Bullet extends GameObject {
     public boolean isUsed;
 
     public Bullet(){
+        tag = GameTags.BULLET;
         mesh = new CenterQuad();
         shader = Shader.CreateShader(
                 "shaders/bulletShader/vertex.glsl",
@@ -63,8 +64,8 @@ public class Bullet extends GameObject {
         super.OnCollisionEnter(collider);
         if(collider.getGameObject().tag==GameTags.ENEMRY) {
             isUsed = false;
-            if(collider.getGameObject() instanceof Asteroid1)
-                ((Asteroid1)collider.getGameObject()).isUsed = false;
+//            if(collider.getGameObject() instanceof Asteroid1)
+//                ((Asteroid1)collider.getGameObject()).isUsed = false;
 //            if(collider.getGameObject() instanceof EnemrySpaceShip)
 //                ((EnemrySpaceShip)collider.getGameObject()).isUse = false;
         }

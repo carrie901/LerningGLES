@@ -234,6 +234,18 @@ public class Shader {
                     mesh.getColorBuffers()
             );
         }
+
+        if(mesh.getNormalBuffers()!=null && mesh.enableNormal){
+            normalHandle = GLES30.glGetAttribLocation(this.ID,mesh.vertexNormalName);
+            GLES30.glVertexAttribPointer(
+                    normalHandle,
+                    3,      // 每个顶点的大小(这里因为顶点是(x,y,z),所以是3)
+                    GLES30.GL_FLOAT,
+                    false,
+                    3*4,    // 每次向右移动 4*sizeof(float)个单位
+                    mesh.getNormalBuffers()
+            );
+        }
     }
 
     /**
@@ -251,6 +263,9 @@ public class Shader {
         }
         if(trianglesHandle!=-1){
             GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER,trianglesHandle);
+        }
+        if(normalHandle!=-1){
+            GLES30.glEnableVertexAttribArray(normalHandle);
         }
     }
 }

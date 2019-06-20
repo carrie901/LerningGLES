@@ -3,6 +3,7 @@ package com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.Collider;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.AsteroidBehavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.BoxCollider;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
@@ -14,6 +15,7 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureSampling
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.DeadBehavior;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameTags.GameTags;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
 
@@ -52,8 +54,8 @@ public class Asteroid1 extends GameObject {
         AddComponent("Collider",collider);
 
         shader = Shader.CreateShader(
-                "shaders/diffuseShader/vertex.glsl",
-                "shaders/diffuseShader/frag.glsl",
+                "shaders/resloveShader/vertex.glsl",
+                "shaders/resloveShader/frag.glsl",
                 SurfaceView.DrawingView.getResources());
 
         try {
@@ -65,6 +67,22 @@ public class Asteroid1 extends GameObject {
                     TextureSamplingMode.Clamp,
                     TextureFilteringMode.Bilinear);
             shader.SetFloat4("mainColor",1,1,1,1);
+
+            Bitmap bitmap1 = TextureUtil.LoadBitmap("textures/burn_noise.png", SurfaceView.DrawingView.getContext());
+            shader.SetTexture2D(
+                    "burnMap",
+                    bitmap1,
+                    1,
+                    TextureSamplingMode.Clamp,
+                    TextureFilteringMode.Bilinear
+            );
+
+            shader.SetFloat4("burnFirstColor",1.0f,0.0f,0.0f,1.0f);
+            shader.SetFloat4("burnSecondColor",0.7f,0.2f,0.2f,1.0f);
+            shader.SetFloat("lineWidth",0.05f);
+            shader.SetFloat("burnAmount",0f);
+            shader.SetFloat("flyFactor",5.0f);
+            shader.SetFloat("flyAmount",0.5f);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -73,6 +91,19 @@ public class Asteroid1 extends GameObject {
         AddComponent(render);
 
         AddComponent(new AsteroidBehavior());
+    }
+
+    @Override
+    public void OnCollisionEnter(Collider collider) {
+        super.OnCollisionEnter(collider);
+        if(collider.getGameObject().tag == GameTags.BULLET){
+            AddComponent(new DeadBehavior(shader));
+        }
+    }
+
+    @Override
+    public void Exit() {
+        isUsed = false;
     }
 
     @Override
