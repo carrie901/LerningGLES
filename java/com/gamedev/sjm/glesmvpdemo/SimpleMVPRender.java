@@ -3,17 +3,16 @@ package com.gamedev.sjm.glesmvpdemo;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
-import android.view.MotionEvent;
-import android.view.View;
 
+import com.gamedev.sjm.glesmvpdemo.BreakOutGame.Gameobjects.Border;
+import com.gamedev.sjm.glesmvpdemo.BreakOutGame.Gameobjects.BrickoutGameControl;
+import com.gamedev.sjm.glesmvpdemo.BreakOutGame.Gameobjects.Paddle;
+import com.gamedev.sjm.glesmvpdemo.BreakOutGame.Gameobjects.Player;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.OperationBehavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Graphics.Graphics1;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Camera;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.SimpleGameEnginer;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Time.Time;
-import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.GameControl;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceBackGround;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceShip;
@@ -47,6 +46,31 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer {
         gameEnginer = new SimpleGameEnginer();
     }
 
+    public void StartBreakOutGame(){
+        BrickoutGameControl gameControl = new BrickoutGameControl();
+        gameEnginer.gameObjects.add(gameControl);
+
+        Player player = new Player();
+//        player.transform.pos = new Vector3(1,0,0);
+        gameEnginer.gameObjects.add(player);
+
+        Paddle paddle = new Paddle();
+//        paddle.transform.pos = new Vector3(0,-1,0);
+        gameEnginer.gameObjects.add(paddle);
+
+        Border topBorder = new Border(true);
+        topBorder.transform.pos = new Vector3(0,2.1f,0);
+        gameEnginer.gameObjects.add(topBorder);
+
+        Border leftBorder = new Border(false);
+        leftBorder.transform.pos = new Vector3(1.2f,0,0);
+        gameEnginer.gameObjects.add(leftBorder);
+
+        Border rightBorder = new Border(false);
+        rightBorder.transform.pos = new Vector3(-1.2f,0,0);
+        gameEnginer.gameObjects.add(rightBorder);
+    }
+
     public void StartSpaceShipGame(){
         SpaceBackGround backGround = new SpaceBackGround();
         gameEnginer.gameObjects.add(backGround);
@@ -72,8 +96,11 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer {
         // 初始化摄像机
         camera = new Camera(cameraPos,cameraRotation,up,45f,near,far,720f/1280f);;
         camera.SetMain();
-        // 测试,给场景添加游戏对象
+
+        // 太空飞船游戏
         StartSpaceShipGame();
+        // breakOut游戏
+//        StartBreakOutGame();
 
         gameEnginer.OnStart();
     }

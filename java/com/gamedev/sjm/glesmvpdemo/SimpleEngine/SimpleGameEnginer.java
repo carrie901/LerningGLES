@@ -63,7 +63,8 @@ public class SimpleGameEnginer implements Game {
     @Override
     public void OnStart() {
         // 更新所有游戏对象的Component组件
-        for(GameObject gameObject : gameObjects){
+        for(int i=0;i<gameObjects.size();i++){
+            GameObject gameObject = gameObjects.get(i);
             for(Component component : gameObject.GetAllComponent()){
                 component.OnStart();
             }
