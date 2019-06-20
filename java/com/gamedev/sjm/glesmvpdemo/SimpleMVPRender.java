@@ -98,9 +98,9 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer {
         camera.SetMain();
 
         // 太空飞船游戏
-        StartSpaceShipGame();
+//        StartSpaceShipGame();
         // breakOut游戏
-//        StartBreakOutGame();
+        StartBreakOutGame();
 
         gameEnginer.OnStart();
     }
