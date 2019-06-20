@@ -44,9 +44,7 @@ public class BoxCollider extends Collider{
     private Mesh mesh;
     private Shader shader;
 
-    @Override
-    public void OnStart() {
-        super.OnStart();
+    public BoxCollider(){
         try {
             // 初始化碰撞体Mesh
             mesh = OBJLoader.ParseOBJ("obj/cube.obj", SurfaceView.DrawingView.getResources());
@@ -55,6 +53,11 @@ public class BoxCollider extends Collider{
                     "shaders/defaultShader/frag.glsl",
                     SurfaceView.DrawingView.getResources());
         }catch (Exception e){e.printStackTrace();}
+    }
+
+    @Override
+    public void OnStart() {
+        super.OnStart();
         // 碰撞盒中心
         Vector3 center = gameObject.transform.pos;
         // 默认碰撞盒大小为gameObject的scale一致
@@ -107,7 +110,7 @@ public class BoxCollider extends Collider{
     @Override
     public void OnCollisionEnter(Collider collider) {
         super.OnCollisionEnter(collider);
-        System.out.println("发生碰撞");
+//        System.out.println("发生碰撞");
         gameObject.OnCollisionEnter(collider);
     }
 

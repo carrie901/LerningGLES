@@ -28,6 +28,5 @@ public class ColliderTest extends GameObject {
         transform.pos = new Vector3(0,0,-2);
         BoxCollider collider = new BoxCollider();
         AddComponent("Collider",collider);
-//        AddComponent(new OperationBehavior());
     }
 }

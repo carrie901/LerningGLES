@@ -3,7 +3,6 @@ package com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject;
 import android.graphics.Bitmap;
 import android.opengl.GLES30;
 
-import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.AsteroidBehavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.BoxCollider;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.GameObject;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
@@ -14,50 +13,35 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureSampling
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.TextureUtil.TextureUtil;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.Mesh;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.EnemryShipBehavior;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameTags.GameTags;
 import com.gamedev.sjm.glesmvpdemo.SurfaceView;
 
-import java.io.IOException;
+public class EnemrySpaceShip extends GameObject {
 
-public class Asteroid1 extends GameObject {
-
-    private Mesh asteroidMesh;
+    private Mesh mesh;
     private Shader shader;
-    public boolean isUsed;
 
-    public Mesh getAsteroidMesh() {
-        return asteroidMesh;
-    }
+    public boolean isUse;
 
-    public Asteroid1(Vector3 pos,Vector3 rotation){
-        this();
-        transform.pos = pos;
-        transform.rotation = rotation;
-    }
-
-    public Asteroid1() {
+    public EnemrySpaceShip(){
         tag = GameTags.ENEMRY;
         try {
-            asteroidMesh = OBJLoader.ParseOBJ("obj/asteroid1.obj",SurfaceView.DrawingView.getResources());
-        } catch (IOException e) {
+            mesh = OBJLoader.ParseOBJ("obj/enemry_spaceship.obj", SurfaceView.DrawingView.getResources());
+        }catch (Exception e){
             e.printStackTrace();
         }
-        transform.pos = new Vector3(0,1,-2);
-        transform.scale = new Vector3(0.2f,0.2f,0.2f);
-
-        BoxCollider collider = new BoxCollider();
-        collider.length = 0.1f;
-        collider.height = 0.1f;
-        collider.width = 0.1f;
-        AddComponent("Collider",collider);
-
         shader = Shader.CreateShader(
                 "shaders/diffuseShader/vertex.glsl",
                 "shaders/diffuseShader/frag.glsl",
                 SurfaceView.DrawingView.getResources());
 
+        MeshRender meshRender = new MeshRender(shader,mesh,GLES30.GL_TRIANGLE_FAN);
+        // 添加meshRender组件
+        AddComponent(meshRender);
+
         try {
-            Bitmap bitmap = TextureUtil.LoadBitmap("textures/prop_asteroid_01_dff.png", SurfaceView.DrawingView.getContext());
+            Bitmap bitmap = TextureUtil.LoadBitmap("textures/vehicle_enemyShip_purple_dff.png", SurfaceView.DrawingView.getContext());
             shader.SetTexture2D(
                     "diffuse",
                     bitmap,
@@ -69,15 +53,22 @@ public class Asteroid1 extends GameObject {
             e.printStackTrace();
         }
 
-        MeshRender render = new MeshRender(shader,asteroidMesh,GLES30.GL_TRIANGLE_FAN);
-        AddComponent(render);
+        transform.pos = new Vector3(0,1,-2);
+        transform.scale = new Vector3(0.2f,0.2f,0.2f);
+        transform.rotation = new Vector3(-90,0,0);
 
-        AddComponent(new AsteroidBehavior());
+        BoxCollider collider = new BoxCollider();
+        collider.height = 0.15f;
+        collider.length = 0.15f;
+        collider.width = 0.15f;
+        AddComponent("Collider",collider);
+
+        AddComponent(new EnemryShipBehavior());
     }
 
     @Override
     public void Render() {
-        if(!isUsed) return;
+        if(!isUse) return;
         super.Render();
     }
 }

@@ -24,6 +24,7 @@ public class Mesh extends Component{
     // 法线
     private float[] normals;
     private FloatBuffer normalBuffers;
+    public String vertexNormalName = "normal";
 
     public float[] getVertics() {
         return vertics;

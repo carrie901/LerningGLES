@@ -1,10 +1,12 @@
 package com.gamedev.sjm.glesmvpdemo;
 
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Collider.Collider;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.Behaviors.OperationBehavior;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Graphics.Graphics1;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.MathUtil.Vector3;
@@ -14,6 +16,10 @@ import com.gamedev.sjm.glesmvpdemo.SimpleEngine.SimpleGameEnginer;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Time.Time;
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.components.MeshRender;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.Asteroid1;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.Bullet;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.ColliderTest;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.EnemrySpaceShip;
+import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.GameControl;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceBackGround;
 import com.gamedev.sjm.glesmvpdemo.SpaceShipGame.GameObject.SpaceShip;
 
@@ -60,9 +66,22 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
         spaceShip.AddComponent(new OperationBehavior());
         gameEnginer.gameObjects.add(spaceShip);
 
-        Asteroid1 asteroid1 = new Asteroid1();
-        asteroid1.transform.pos = new Vector3(0,1,-2);
-        gameEnginer.gameObjects.add(asteroid1);
+//        EnemrySpaceShip enemrySpaceShip = new EnemrySpaceShip();
+//        gameEnginer.gameObjects.add(enemrySpaceShip);
+
+//        Bullet bullet = new Bullet();
+//        gameEnginer.gameObjects.add(bullet);
+
+//        GameControl control = new GameControl();
+//        gameEnginer.gameObjects.add(control);
+
+//        Asteroid1 asteroid1 = new Asteroid1();
+//        asteroid1.transform.pos = new Vector3(0.75f,0,-2);
+//        gameEnginer.gameObjects.add(asteroid1);
+
+//        SpaceShip spaceShip1 = new SpaceShip();
+//        spaceShip1.transform.pos = new Vector3(0,2,-2);
+//        gameEnginer.gameObjects.add(spaceShip1);
 
 //        ColliderTest colliderTest = new ColliderTest();
 //        OperationBehavior behavior = new OperationBehavior();
@@ -129,6 +148,9 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
         // 打开深度测试
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
 
+        GLES30.glEnable(GLES30.GL_BLEND); //启用融合
+        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA,GLES20.GL_ONE_MINUS_SRC_ALPHA);//定义源因子与目的因子
+
         cameraPos = new Vector3(0,0,-5);
         cameraRotation = new Vector3(0,0,0);
         // 初始化摄像机
@@ -143,8 +165,6 @@ public class SimpleMVPRender implements GLSurfaceView.Renderer,View.OnTouchListe
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES30.glViewport(0,0,width,height);
-
-
     }
 
     @Override

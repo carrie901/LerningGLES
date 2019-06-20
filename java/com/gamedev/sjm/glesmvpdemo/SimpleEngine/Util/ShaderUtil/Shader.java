@@ -26,6 +26,7 @@ public class Shader {
     private int colorHandle = -1;       // 顶点色属性ID
     private int texcoordHandle = -1;    // 顶点uv属性ID
     private int trianglesHandle = -1;   // 顶点索引属性ID
+    private int normalHandle = -1;
 
     public int getID() {
         return ID;

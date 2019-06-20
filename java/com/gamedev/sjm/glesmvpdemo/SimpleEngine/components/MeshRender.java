@@ -1,5 +1,6 @@
 package com.gamedev.sjm.glesmvpdemo.SimpleEngine.components;
 
+import android.opengl.GLES20;
 import android.opengl.GLES30;
 
 import com.gamedev.sjm.glesmvpdemo.SimpleEngine.Util.ShaderUtil.Shader;
